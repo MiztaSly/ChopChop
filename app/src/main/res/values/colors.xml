@@ -13,4 +13,7 @@
 
     <color name="btnSignUp">#39796b</color>
     <color name="btnSignIn">#FFC107</color>
+
+    <color name="overlayBackground">#B0BBC5</color>
+    <color name="overActionBar">#0e0d0e</color>
 </resources>
