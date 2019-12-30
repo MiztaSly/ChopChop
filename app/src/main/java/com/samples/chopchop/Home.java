@@ -147,8 +147,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         };
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+
         recycler_menu.setLayoutManager(layoutManager);
         adapter.startListening();
         recycler_menu.setAdapter(adapter);
