@@ -9,6 +9,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "Home";
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -101,7 +104,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //load menu
         recycler_menu = (RecyclerView)findViewById(R.id.recycler_menu);
-       // recycler_menu.setHasFixedSize(true);
+        recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
         
@@ -110,34 +113,27 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void loadMenu() {
-        FirebaseRecyclerOptions<Category> options;
-
-        options = new FirebaseRecyclerOptions.Builder<Category>()
+        Log.d(TAG, "loadMenu: menuLoader called");
+        FirebaseRecyclerOptions<Category> options = new FirebaseRecyclerOptions.Builder<Category>()
                 .setQuery(category,Category.class).build();
+
         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category category) {
-                Picasso.with(getBaseContext()).load(category.getImage())
-                        .into(holder.imageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
+            protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
 
-                            }
-
-                            @Override
-                            public void onError() {
-                                Toast.makeText(Home.this, "failled to load msg", Toast.LENGTH_SHORT).show();
-
-                            }
+                holder.txtMenuName.setText(model.getName());
+                Picasso.with(getBaseContext()).load(model.getImage())
+                        .into(holder.imageView);
 
 
-                        });
-                holder.txtMenuName.setText(category.getName());
-                final Category clickItem = category;
+
+
+               // final Category clickItem = model;
                 holder.setItemClickListerner(new ItemClickListerner() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        //Get category and send to new activity
+                        Log.d(TAG, "onClick: called");
+                        //Get model and send to new activity
                         Intent foodList = new Intent(Home.this,FoodList.class);
                         //because categoryId is key, so we just get key of item
                         foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
@@ -155,9 +151,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         };
 
-
-        recycler_menu.setLayoutManager(layoutManager);
         adapter.startListening();
+
+        adapter.notifyDataSetChanged();
+
+        //recycler_menu.setLayoutManager(layoutManager);
+
         recycler_menu.setAdapter(adapter);
 
     }
