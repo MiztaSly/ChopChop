@@ -1,4 +1,4 @@
-package com.samples.chopchop.ui.slideshow;
+package com.samples.chopchop.Fragments.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

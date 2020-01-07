@@ -50,17 +50,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    TextView txtFullName;
+
+/**
     FirebaseDatabase database;
     DatabaseReference category;
 
 
 
-    TextView txtFullName;
+
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
+**/
 
-    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +71,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
 
         //init firebase
-        database = FirebaseDatabase.getInstance();
-        category = database.getReference("Category");
+       // database = FirebaseDatabase.getInstance();
+       // category = database.getReference("Category");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -89,11 +92,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_cart, R.id.nav_orders, R.id.nav_log_out)
+               navController.getGraph())
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -101,55 +105,49 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         View headerView = navigationView.getHeaderView(0);
         txtFullName=(TextView)headerView.findViewById(R.id.txtFullName);
         txtFullName.setText(Common.currentUser.getName());
-
+/**
         //load menu
         recycler_menu = (RecyclerView)findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
         
-        loadMenu();
+       // loadMenu();
+ **/
 
     }
-
+/**
     private void loadMenu() {
-        Log.d(TAG, "loadMenu: menuLoader called");
-        FirebaseRecyclerOptions<Category> options = new FirebaseRecyclerOptions.Builder<Category>()
-                .setQuery(category,Category.class).build();
+      FirebaseRecyclerOptions<Category>options = new FirebaseRecyclerOptions.Builder<Category>()
+              .setQuery(category,Category.class).build();
+      FirebaseRecyclerAdapter<Category,MenuViewHolder>adapter;
+      adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
+          @Override
+          protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
+              holder.txtMenuName.setText(model.getName());
+              Picasso.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
 
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
+              final Category clickedItem = model;
+              holder.setItemClickListerner(new ItemClickListerner() {
+                  @Override
+                  public void onClick(View view, int position, boolean isLongClick) {
+                      Toast.makeText(Home.this, ""+clickedItem.getName(), Toast.LENGTH_SHORT).show();
+                  }
+              });
 
-                holder.txtMenuName.setText(model.getName());
-                Picasso.with(getBaseContext()).load(model.getImage())
-                        .into(holder.imageView);
+          }
 
+          @NonNull
+          @Override
+          public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+              View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item,parent,false);
+              return new MenuViewHolder(view);
+          }
+      };
 
-
-               // final Category clickItem = model;
-                holder.setItemClickListerner(new ItemClickListerner() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        Log.d(TAG, "onClick: called");
-                        //Get model and send to new activity
-                        Intent foodList = new Intent(Home.this,FoodList.class);
-                        //because categoryId is key, so we just get key of item
-                        foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
-                        startActivity(foodList);
-
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item,parent,false);
-                return new MenuViewHolder(view);
-            }
-        };
+      GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+      recycler_menu.setLayoutManager(gridLayoutManager);
 
         adapter.startListening();
 
@@ -160,6 +158,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         recycler_menu.setAdapter(adapter);
 
     }
+
+ **/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

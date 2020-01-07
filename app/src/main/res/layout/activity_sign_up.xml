@@ -85,7 +85,7 @@
         android:text="SIGN UP"
         android:textStyle="bold"
         app:backgroundTint="@color/btnSignUp"
-        app:cornerRadius="4dp"
+        app:cornerRadius="@dimen/btn_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/edtPassword"
         app:layout_constraintHorizontal_chainStyle="spread"

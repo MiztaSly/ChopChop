@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/chop_img_width"
+        android:layout_height="@dimen/chop_img_width"
         android:layout_marginTop="228dp"
         app:layout_constraintBottom_toTopOf="@+id/txtSlogan"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,10 +29,9 @@
 
     <TextView
         android:id="@+id/txtSlogan"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/slogan_txt_width"
         android:layout_height="wrap_content"
         android:gravity="center"
-
         android:text="@string/slogan"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
@@ -41,13 +40,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnsignIn"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/btn_width"
         android:layout_height="@dimen/btn_height"
         android:layout_marginBottom="32dp"
-        android:text="SIGN IN"
+        android:text="@string/sign_in"
         style="@style/Widget.MaterialComponents.Button"
         app:backgroundTint="@color/colorPrimaryDark"
-        app:cornerRadius="4dp"
+        app:cornerRadius="@dimen/btn_radius"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSignUp"
@@ -57,12 +56,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignUp"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/btn_width"
         android:layout_height="@dimen/btn_height"
-        android:text="SIGN UP"
+        android:text="@string/sign_up"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="4dp"
+        app:cornerRadius="@dimen/btn_radius"
         app:backgroundTint="@color/btnSignIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
