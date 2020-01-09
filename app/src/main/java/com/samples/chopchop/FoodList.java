@@ -1,31 +1,31 @@
 package com.samples.chopchop;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
+
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
 import com.samples.chopchop.Interface.ItemClickListerner;
-import com.samples.chopchop.Model.Category;
 import com.samples.chopchop.Model.Food;
 import com.samples.chopchop.ViewHolder.FoodViewHolder;
 import com.squareup.picasso.Picasso;
 
 public class FoodList extends AppCompatActivity {
+
+    private static final String TAG = "FoodList";
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -35,7 +35,8 @@ public class FoodList extends AppCompatActivity {
 
     String categoryId = "";
 
-    FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
+
+    FirebaseRecyclerAdapter<Food,FoodViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class FoodList extends AppCompatActivity {
         setContentView(R.layout.activity_food_list);
 
         database = FirebaseDatabase.getInstance();
-        foodList = database.getReference("Foods");
+        foodList = database.getReference("Food");
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_foodlist);
         recyclerView.setHasFixedSize(true);
@@ -53,47 +54,42 @@ public class FoodList extends AppCompatActivity {
         //Get Intent here
         if (getIntent() != null)
             categoryId = getIntent().getStringExtra("CategoryId");
-        if (!categoryId.isEmpty() && categoryId !=null) {
+        if (!categoryId.isEmpty()){
             loadListFood(categoryId);
         }
     }
 
     private void loadListFood(String categoryId) {
+        Log.d(TAG, "loadListFood: foodlist called" + categoryId);
 
-        Query listFoodByCategoryId = foodList.orderByChild("menuId").equalTo(categoryId);
-        FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(listFoodByCategoryId,Food.class)
-                .build();
 
-        adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class,
+                R.layout.food_list_item,
+                FoodViewHolder.class,
+                foodList.orderByChild("MenuId").equalTo(categoryId)) {
+
             @Override
-            protected void onBindViewHolder(@NonNull FoodViewHolder viewHolder, int position, @NonNull Food model) {
-                    viewHolder.food_name.setText(model.getName());
+            protected void populateViewHolder(FoodViewHolder foodViewHolder, Food model, int i) {
+                foodViewHolder.food_name.setText(model.getName());
                 Picasso.with(getBaseContext())
                         .load(model.getImage())
-                        .into(viewHolder.food_image);
+                        .into(foodViewHolder.food_image);
 
 
-                final Food local = model;
-                viewHolder.setItemClickListerner(new ItemClickListerner() {
+                final Food local =model;
+                foodViewHolder.setItemClickListener(new ItemClickListerner() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         Toast.makeText(FoodList.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
 
-            @NonNull
-            @Override
-            public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.food_list_item,parent,false);
-                return new FoodViewHolder(itemView);
             }
         };
-        adapter.startListening();
 
-        adapter.notifyDataSetChanged();
+
+
+        //adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
     }
@@ -101,6 +97,6 @@ public class FoodList extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+
     }
 }

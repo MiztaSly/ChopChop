@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.samples.chopchop.Fragments.home.HomeFragment"
+        android:name="com.samples.chopchop.Fragments.home.FoodMenuFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.samples.chopchop.Fragments.gallery.GalleryFragment"
+        android:name="com.samples.chopchop.Fragments.gallery.DisplayFoodMenuDetailsFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 

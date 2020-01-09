@@ -17,7 +17,7 @@ public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     private ItemClickListerner itemClickListerner;
 
-    public void setItemClickListerner(ItemClickListerner itemClickListerner) {
+    public void setItemClickListener(ItemClickListerner itemClickListerner) {
         this.itemClickListerner = itemClickListerner;
     }
 

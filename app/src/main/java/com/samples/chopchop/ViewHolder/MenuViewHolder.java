@@ -27,7 +27,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     }
 
-    public void setItemClickListerner(ItemClickListerner itemClickListerner) {
+    public void setItemClickListener(ItemClickListerner itemClickListerner) {
         this.itemClickListerner = itemClickListerner;
     }
 
