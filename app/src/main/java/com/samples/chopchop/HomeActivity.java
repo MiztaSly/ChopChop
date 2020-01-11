@@ -39,7 +39,7 @@ import android.widget.Toast;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FoodMenuFragment.OnFoodMenuSelectedListener {
 
-    FoodMenuFragment mFoodMenuFragment;
+
 
 
     private String CategoryId;
