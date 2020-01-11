@@ -16,4 +16,5 @@
 
     <color name="overlayBackground">#B0BBC5</color>
     <color name="overActionBar">#0e0d0e</color>
+    <color name="colorDarkSemiTransparent">#C6000000</color>
 </resources>

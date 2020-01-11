@@ -60,8 +60,7 @@ public class FoodDetail extends AppCompatActivity {
 
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppber);
+
 
         //Get Food id from Intent
         if (getIntent() !=null)
